@@ -1,8 +1,8 @@
 {
-  "name": "code-analysis-toolkit",
+  "name": "cf-dev-toolkit",
   "version": "1.0.0",
-  "description": "Comprehensive code analysis toolkit with 6 specialized sub-agents and skills for deep codebase understanding, performance analysis, API mapping, and dependency tracking",
-  "author": "Custom",
+  "description": "Daily development workflow toolkit with specialized sub-agents that understand complete context, maintain focus, and prevent context overflow on complex tasks",
+  "author": "codeforges",
   "agents": [
     {
       "name": "code-analyst",
@@ -27,6 +27,10 @@
     {
       "name": "git-analyzer",
       "path": "agents/git-analyzer.md"
+    },
+    {
+      "name": "code-scanner",
+      "path": "agents/code-scanner.md"
     }
   ],
   "skills": [

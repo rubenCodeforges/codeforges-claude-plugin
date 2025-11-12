@@ -1,6 +1,6 @@
 ---
 name: usage-finder
-description: Expert at finding usages of functions, methods, classes, variables, and imports across codebases. Use when tracking down where code is used, analyzing dependencies, or understanding call chains. Handles multiple languages and provides context-rich results.
+description: MUST BE USED for finding code usages. USE PROACTIVELY when user asks "where is X used", "find usages", "what calls this", or needs to track dependencies. Expert at finding functions, methods, classes, variables across codebases with context-rich results.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---

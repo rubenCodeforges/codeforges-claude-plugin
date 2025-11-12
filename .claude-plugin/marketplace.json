@@ -1,0 +1,16 @@
+{
+  "name": "cf-dev-toolkit",
+  "description": "Daily development workflow toolkit that enhances Claude Code with specialized agents for focused, context-efficient work",
+  "owner": {
+    "name": "codeforges",
+    "email": "noreply@codeforges.com"
+  },
+  "plugins": [
+    {
+      "name": "cf-dev-toolkit",
+      "source": "./",
+      "description": "Specialized sub-agents, auto-loading skills, and commands that reduce context usage and prevent Claude from losing focus on complex tasks",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: dependency-analyzer
-description: Expert at analyzing project dependencies, imports, and module relationships. Use when investigating dependency graphs, detecting circular dependencies, analyzing bundle sizes, or auditing security vulnerabilities. Supports multiple package managers and languages.
+description: MUST BE USED for dependency analysis. USE PROACTIVELY when user asks about "dependencies", "circular deps", "security vulnerabilities", "bundle size", "npm audit", or package issues. Supports npm, pip, go modules, maven, cargo, composer.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---

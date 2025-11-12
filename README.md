@@ -1,86 +1,168 @@
-# Code Analysis Toolkit Plugin
+# cf Dev Toolkit
 
-Comprehensive code analysis toolkit for Claude Code with 6 specialized sub-agents, 3 skills, and 2 slash commands.
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://claude.com/claude-code)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## 🎯 What's Included
+**Daily development workflow toolkit that makes Claude Code stay focused and understand your complete codebase.**
 
-### Sub-Agents (6)
-- **code-analyst** - Deep file analysis: architecture, patterns, dependencies, issues, recommendations
-- **usage-finder** - Find all usages of functions, methods, classes across codebase
-- **dependency-analyzer** - Analyze dependencies, detect circular deps, security vulnerabilities
-- **performance-analyzer** - Identify bottlenecks, N+1 queries, inefficient algorithms
-- **api-analyzer** - Map API endpoints, routes, HTTP methods across frameworks
-- **git-analyzer** - Analyze git history, commits, contributors, blame
+## 🎯 The Problem This Solves
 
-### Skills (3)
-- **codebase-patterns** - Common patterns, anti-patterns, architectural conventions
-- **refactoring-guide** - Practical refactoring techniques and when to apply them
-- **performance-patterns** - Performance optimization patterns and bottlenecks
+Plain Claude Code often:
+- 🔴 **Reads only 20-30 lines** and misses the full picture
+- 🔴 **Loses focus** on complex multi-step tasks
+- 🔴 **Burns through context** trying to understand large files
+- 🔴 **Makes assumptions** about method signatures without checking
+- 🔴 **Gets overwhelmed** by 80% of real-world development tasks
 
-### Slash Commands (2)
-- `/analyze-file` - Deep analysis of specific file with code-analyst
-- `/scan-codebase` - Comprehensive project structure scan
+## ✨ The Solution
+
+This toolkit adds **specialized sub-agents** that:
+- ✅ **Understand complete context** without context overflow
+- ✅ **Stay focused** - each agent has one job and does it well
+- ✅ **Work in parallel** - separate context windows reduce token usage
+- ✅ **Verify before suggesting** - checks actual signatures, not assumptions
+- ✅ **Trigger automatically** - just describe your problem naturally
+
+**Result:** Claude Code that actually helps with complex daily tasks instead of making a mess.
+
+## 🛠️ What's Included
+
+### Specialized Sub-Agents
+Each agent automatically triggers based on your task:
+
+- **code-analyst** - Analyzes files strategically (smart reading for large files), checks actual signatures before suggesting code
+- **usage-finder** - Tracks where functions/classes are used across the entire codebase
+- **dependency-analyzer** - Analyzes dependencies, detects circular deps, finds security vulnerabilities
+- **performance-analyzer** - Identifies bottlenecks, N+1 queries, algorithmic issues with concrete fixes
+- **api-analyzer** - Maps all API endpoints across frameworks (Express, FastAPI, Django, Spring, Go)
+- **git-analyzer** - Shows who wrote what, when, and why - complete code evolution
+- **code-scanner** - Gives project overview: structure, tech stack, organization patterns
+
+### Auto-Loading Skills
+Knowledge that enhances responses automatically:
+
+- **codebase-patterns** - Recognizes common patterns and anti-patterns in your code
+- **refactoring-guide** - Practical refactoring techniques with before/after examples
+- **performance-patterns** - Performance optimization strategies across languages
+
+### Quick Commands
+- `/analyze-file <path>` - Deep file analysis
+- `/scan-codebase` - Complete project overview
 
 ## 📦 Installation
 
-### Option 1: Direct Install (if published)
+### From GitHub (Recommended)
 ```bash
-/plugin install code-analysis-toolkit
+/plugin marketplace add rubenCodeforges/codeforges-claude-plugin
+/plugin install cf-dev-toolkit
 ```
 
-### Option 2: Manual Install
-1. Download the `code-analysis-toolkit` folder
-2. Copy to `~/.claude/plugins/` or `.claude/plugins/`
+### Manual Install
+1. Clone: `git clone git@github.com:rubenCodeforges/codeforges-claude-plugin.git`
+2. Copy to: `~/.claude/plugins/cf-dev-toolkit`
 3. Restart Claude Code
 
 ## 🚀 Usage
 
-### Automatic Invocation
-Sub-agents trigger automatically based on your questions:
-- "Analyze this file" → code-analyst
-- "Where is this function used?" → usage-finder
-- "Check for performance issues" → performance-analyzer
-- "Map all API endpoints" → api-analyzer
-- "Show dependency tree" → dependency-analyzer
-- "Who wrote this code?" → git-analyzer
+### Just Talk Naturally (Recommended)
 
-### Explicit Invocation
+**No @ needed!** Just describe your problem and Claude automatically uses the right agents:
+
+```
+You: "A bug was reported in the checkout form"
+→ Claude automatically uses code-analyst, usage-finder, git-analyzer
+
+You: "Check for performance issues in the dashboard"
+→ Claude automatically uses performance-analyzer
+
+You: "Where is calculateTotal used?"
+→ Claude automatically uses usage-finder
+
+You: "Map all API endpoints"
+→ Claude automatically uses api-analyzer
+
+You: "Show me the dependency tree"
+→ Claude automatically uses dependency-analyzer
+```
+
+**How it works:**
+- Agents trigger based on your natural language
+- No need to remember which agent does what
+- Multiple agents work together automatically
+- Each agent has its own context window (reduces token usage)
+
+### Advanced: Explicit Agent Invocation (Optional)
+
+Only use @ when you want to force a specific agent:
+
 ```bash
 @code-analyst analyze src/components/Button.tsx
 @usage-finder find usages of handleSubmit
-@dependency-analyzer check for vulnerabilities
+@performance-analyzer check this specific file
 ```
 
-### Slash Commands
+### Quick Commands
+
 ```bash
-/analyze-file src/utils/api.ts
-/scan-codebase
+/analyze-file src/utils/api.ts    # Deep file analysis
+/scan-codebase                     # Complete project scan
 ```
 
-## 📚 Examples
+## 📚 Real-World Examples
 
-### Deep File Analysis
+### Bug Investigation
 ```
-User: Analyze src/services/AuthService.ts
-Agent: @code-analyst [performs comprehensive analysis]
-```
+You: "Users can't submit the payment form. Error in checkout flow."
 
-### Find Usage
-```
-User: Where is the validateEmail function used?
-Agent: @usage-finder [searches across codebase]
-```
+Claude (automatically):
+✓ Analyzes checkout form code (code-analyst)
+✓ Traces payment submission usage (usage-finder)
+✓ Maps payment API endpoints (api-analyzer)
+✓ Shows recent changes (git-analyzer)
+✓ Checks for performance issues (performance-analyzer)
 
-### Performance Audit
-```
-User: Check for performance issues in this component
-Agent: @performance-analyzer [identifies bottlenecks]
+Result: "Found missing error handling in CheckoutForm.jsx:45..."
 ```
 
-### API Documentation
+### Feature Development
 ```
-User: Map all our API endpoints
-Agent: @api-analyzer [generates API reference]
+You: "I need to add pagination to the users list"
+
+Claude (automatically):
+✓ Analyzes current implementation (code-analyst)
+✓ Finds similar patterns in codebase (usage-finder)
+✓ Checks API pagination support (api-analyzer)
+✓ Loads pagination best practices (skills)
+
+Result: "Here's how to implement pagination following your project's patterns..."
+```
+
+### Performance Optimization
+```
+You: "Dashboard is loading slowly"
+
+Claude (automatically):
+✓ Scans for bottlenecks (performance-analyzer)
+✓ Checks bundle size (dependency-analyzer)
+✓ Reviews component structure (code-analyst)
+✓ Shows recent changes (git-analyzer)
+
+Result: "Found 3 issues: N+1 queries, missing React.memo, large imports..."
+```
+
+### Refactoring
+```
+You: "Help me refactor UserService - it's too large"
+
+Claude (automatically):
+✓ Analyzes structure (code-analyst)
+✓ Maps all usages (usage-finder)
+✓ Shows dependencies (dependency-analyzer)
+✓ Loads refactoring patterns (skills)
+
+Result: "Split into 3 services: UserAuth, UserProfile, UserNotifications..."
 ```
 
 ## 🎓 Skills Auto-Load
@@ -97,13 +179,42 @@ Edit any `.md` file in the plugin to customize behavior:
 - `skills/*.md` - Knowledge that auto-loads
 - `commands/*.md` - Slash command definitions
 
-## 📊 Benefits
+## 📊 Why This Works
 
-✅ **Context Management** - Each sub-agent has separate context window  
-✅ **Specialized Expertise** - Purpose-built agents for specific tasks  
-✅ **Auto-invocation** - Triggers based on description matching  
-✅ **Comprehensive** - Covers analysis, performance, security, dependencies  
-✅ **Multi-language** - Works with JS/TS, Python, Go, Java, etc.  
+### The Technical Advantage
+
+**Separate Context Windows**
+Each agent operates independently, so:
+- Main conversation doesn't get polluted with analysis details
+- Can handle massive codebases without token overflow
+- Multiple agents work in parallel
+
+**Smart Reading Strategy**
+- Files < 1000 lines: Read completely
+- Files > 1000 lines: Strategic reading (imports, exports, key sections) + targeted Grep
+- No more "I only read 30 lines" problems
+
+**Proactive Triggering**
+Agents have `MUST BE USED` and `USE PROACTIVELY` keywords that Claude respects:
+- You say "bug in checkout" → agents automatically investigate
+- No need to remember which agent does what
+- Works like having a team of specialists
+
+**Verification First**
+Agents are instructed to:
+- Check actual method signatures before suggesting code
+- Read implementations, not make assumptions
+- Provide accurate, tested recommendations
+
+### Real Impact
+
+| Without Plugin | With cf-dev-toolkit |
+|---------------|---------------------|
+| Reads 20-30 lines, misses context | Understands complete picture |
+| Gets lost on complex tasks | Stays focused with specialized agents |
+| Burns context on large files | Smart reading + separate contexts |
+| Assumes method signatures | Verifies before suggesting |
+| You fix Claude's mistakes | Claude provides accurate help |
 
 ## 🤝 Contributing
 
@@ -124,6 +235,6 @@ MIT - Use freely, modify as needed
 
 ---
 
-**Version**: 1.0.0  
-**Author**: Custom  
+**Version**: 1.0.0
+**Author**: codeforges (cf)
 **Requires**: Claude Code with sub-agent support
