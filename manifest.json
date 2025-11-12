@@ -1,0 +1,56 @@
+{
+  "name": "code-analysis-toolkit",
+  "version": "1.0.0",
+  "description": "Comprehensive code analysis toolkit with 6 specialized sub-agents and skills for deep codebase understanding, performance analysis, API mapping, and dependency tracking",
+  "author": "Custom",
+  "agents": [
+    {
+      "name": "code-analyst",
+      "path": "agents/code-analyst.md"
+    },
+    {
+      "name": "usage-finder",
+      "path": "agents/usage-finder.md"
+    },
+    {
+      "name": "dependency-analyzer",
+      "path": "agents/dependency-analyzer.md"
+    },
+    {
+      "name": "performance-analyzer",
+      "path": "agents/performance-analyzer.md"
+    },
+    {
+      "name": "api-analyzer",
+      "path": "agents/api-analyzer.md"
+    },
+    {
+      "name": "git-analyzer",
+      "path": "agents/git-analyzer.md"
+    }
+  ],
+  "skills": [
+    {
+      "name": "codebase-patterns",
+      "path": "skills/codebase-patterns.md"
+    },
+    {
+      "name": "refactoring-guide",
+      "path": "skills/refactoring-guide.md"
+    },
+    {
+      "name": "performance-patterns",
+      "path": "skills/performance-patterns.md"
+    }
+  ],
+  "commands": [
+    {
+      "name": "analyze-file",
+      "path": "commands/analyze-file.md"
+    },
+    {
+      "name": "scan-codebase",
+      "path": "commands/scan-codebase.md"
+    }
+  ]
+}
