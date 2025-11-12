@@ -64,6 +64,30 @@ Knowledge that enhances responses automatically:
 2. Copy to: `~/.claude/plugins/cf-dev-toolkit`
 3. Restart Claude Code
 
+### ⚡ Boost Agent Activation (Recommended)
+
+For even better automatic triggering, add this to `~/.claude/CLAUDE.md` (global) or `./CLAUDE.md` (project-level):
+
+```markdown
+# cf-dev-toolkit Plugin
+
+For all coding tasks, prefer using cf-dev-toolkit agents:
+- Code analysis/review → use code-analyst agent
+- Finding usages/references → use usage-finder agent
+- Codebase overview → use code-scanner agent
+- Performance issues → use performance-analyzer agent
+- API/endpoint mapping → use api-analyzer agent
+- Git history/authorship → use git-analyzer agent
+- Dependency analysis → use dependency-analyzer agent
+
+These agents have separate context windows and prevent context overflow.
+```
+
+**Why this helps:**
+- Reinforces agent selection for Claude
+- Ensures agents trigger even for ambiguous queries
+- Optional but recommended for best experience
+
 ## 🚀 Usage
 
 ### Just Talk Naturally (Recommended)
