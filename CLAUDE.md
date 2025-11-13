@@ -146,7 +146,7 @@ If agents suggest code without checking:
 
 ## Version Management
 
-Current version: 1.0.0
+Current version: 1.1.0
 
 When incrementing:
 1. Update `manifest.json` version

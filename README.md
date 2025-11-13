@@ -1,6 +1,6 @@
 # cf Dev Toolkit
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://claude.com/claude-code)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
@@ -50,6 +50,7 @@ Knowledge that enhances responses automatically:
 ### Quick Commands
 - `/analyze-file <path>` - Deep file analysis
 - `/scan-codebase` - Complete project overview
+- `/map-class-usage <ClassName>` - Build comprehensive usage map for a class
 
 ## 📦 Installation
 
@@ -130,8 +131,9 @@ Only use @ when you want to force a specific agent:
 ### Quick Commands
 
 ```bash
-/analyze-file src/utils/api.ts    # Deep file analysis
-/scan-codebase                     # Complete project scan
+/analyze-file src/utils/api.ts       # Deep file analysis
+/scan-codebase                        # Complete project scan
+/map-class-usage UserService          # Build usage map for a class
 ```
 
 ## 📚 Real-World Examples
@@ -259,6 +261,6 @@ MIT - Use freely, modify as needed
 
 ---
 
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Author**: codeforges (cf)
 **Requires**: Claude Code with sub-agent support
