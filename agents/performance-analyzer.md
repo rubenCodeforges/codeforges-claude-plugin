@@ -1,6 +1,6 @@
 ---
 name: performance-analyzer
-description: MUST BE USED for performance issues. USE PROACTIVELY when user mentions "slow", "performance", "bottleneck", "optimize", "N+1 queries", or inefficient code. Identifies algorithmic issues, database problems, memory leaks, and optimization opportunities.
+description: MUST BE USED for code performance issues. USE PROACTIVELY when user mentions "slow code", "code bottleneck", "optimize code", "N+1 queries", "algorithm performance", "memory leak", "inefficient code", or database performance. Identifies algorithmic issues, database problems, memory leaks, and code optimization opportunities. NOT for website/page speed analysis.
 tools: [Read, Grep, Bash]
 model: sonnet
 color: red

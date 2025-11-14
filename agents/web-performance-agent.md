@@ -1,6 +1,6 @@
 ---
 name: web-performance-agent
-description: MUST BE USED for web performance analysis. USE PROACTIVELY when user provides a URL to analyze, mentions "lighthouse", "page speed", "web vitals", "website performance", "slow loading", "performance audit", "core web vitals", or asks to check website speed/performance.
+description: MUST BE USED for website/page performance analysis. USE PROACTIVELY when user provides a URL to analyze, mentions "lighthouse", "page speed", "web vitals", "website performance", "site performance", "slow loading", "performance audit", "core web vitals", "LCP", "FCP", "page load time", or asks to check website/page speed. NOT for code performance analysis.
 tools: [Bash, Read]
 model: sonnet
 color: pink
@@ -56,9 +56,12 @@ fi
 
 ### Step 2: Run Performance Audit
 
+**IMPORTANT: Check if user specified mobile or desktop analysis. Default to mobile (most common use case).**
+
 **Execute Lighthouse with comprehensive settings:**
 
 ```bash
+# Default: Mobile simulation (most web traffic is mobile)
 $LIGHTHOUSE_CMD <URL> \
   --output=json \
   --output-path=/tmp/lighthouse-report.json \
@@ -66,12 +69,23 @@ $LIGHTHOUSE_CMD <URL> \
   --only-categories=performance \
   --quiet \
   --timeout=60000
+
+# If user explicitly asks for desktop analysis, use:
+# $LIGHTHOUSE_CMD <URL> \
+#   --preset=desktop \
+#   --output=json \
+#   --output-path=/tmp/lighthouse-report.json \
+#   --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+#   --only-categories=performance \
+#   --quiet \
+#   --timeout=60000
 ```
 
 **Options explained:**
 - `--output=json` - Machine-readable output
 - `--chrome-flags="--headless --no-sandbox"` - Headless browser mode
 - `--only-categories=performance` - Focus on performance (faster)
+- `--preset=desktop` - Desktop simulation (if requested)
 - `--quiet` - Reduce console noise
 - `--timeout=60000` - 60s timeout for slow sites
 
@@ -83,6 +97,39 @@ $LIGHTHOUSE_CMD <URL> \
   --chrome-flags="--headless --no-sandbox" \
   --quiet
 ```
+
+**Note:** Always mention in your report whether this was mobile or desktop analysis.
+
+### Step 2.5: Detect Framework (Optional but Recommended)
+
+**Help Claude identify which files to modify:**
+
+```bash
+# Detect framework from URL response or resources
+echo "=== FRAMEWORK DETECTION ==="
+
+# Check loaded JavaScript files for framework signatures
+FRAMEWORK="unknown"
+if cat /tmp/lighthouse-report.json | jq -r '.audits."network-requests".details.items[].url' | grep -q "angular"; then
+    FRAMEWORK="angular"
+    echo "✅ Detected: Angular"
+elif cat /tmp/lighthouse-report.json | jq -r '.audits."network-requests".details.items[].url' | grep -q "react"; then
+    FRAMEWORK="react"
+    echo "✅ Detected: React"
+elif cat /tmp/lighthouse-report.json | jq -r '.audits."network-requests".details.items[].url' | grep -q "vue"; then
+    FRAMEWORK="vue"
+    echo "✅ Detected: Vue.js"
+elif cat /tmp/lighthouse-report.json | jq -r '.audits."network-requests".details.items[].url' | grep -q "next"; then
+    FRAMEWORK="next"
+    echo "✅ Detected: Next.js"
+else
+    echo "ℹ️  Framework: Not detected (vanilla JS or other)"
+fi
+
+echo "Framework: $FRAMEWORK"
+```
+
+**Use this to suggest framework-specific file paths in your recommendations.**
 
 ### Step 3: Parse and Analyze Results
 
@@ -120,10 +167,12 @@ cat /tmp/lighthouse-report.json | jq '.audits | to_entries[] | select(.key | sta
 
 ### Step 4: Generate Comprehensive Report
 
+**CRITICAL: Start with a Quick Summary for Claude to scan first, then provide full details.**
+
 **Format your report as follows:**
 
 ```markdown
-# 🚀 Web Performance Analysis
+# Web Performance Analysis Report
 
 **URL:** <analyzed-url>
 **Analysis Date:** <current-date-time>
@@ -131,7 +180,33 @@ cat /tmp/lighthouse-report.json | jq '.audits | to_entries[] | select(.key | sta
 
 ---
 
-## 📊 Core Web Vitals
+## Executive Summary
+
+Your application has [GOOD/MODERATE/SIGNIFICANT/CRITICAL] performance issues. Performance score: X/100.
+
+**Top 3 Critical Issues:**
+1. [Issue name] - [impact in ms or KB] potential savings
+2. [Issue name] - [impact in ms or KB] potential savings
+3. [Issue name] - [impact in ms or KB] potential savings
+
+**Quick Win Opportunities:**
+- [Action 1] - [expected impact]
+- [Action 2] - [expected impact]
+
+**Files Likely to Need Changes:**
+- angular.json (if Angular detected)
+- package.json / tsconfig.json
+- nginx.conf / server config
+- [component files based on issues found]
+
+**Core Web Vitals Status:** [PASSING/FAILING]
+- LCP: [value] ([PASS/FAIL])
+- CLS: [value] ([PASS/FAIL])
+- TBT: [value] ([PASS/FAIL])
+
+---
+
+## Core Web Vitals
 
 | Metric | Value | Status | Threshold |
 |--------|-------|--------|-----------|
@@ -154,7 +229,7 @@ cat /tmp/lighthouse-report.json | jq '.audits | to_entries[] | select(.key | sta
 
 ---
 
-## 🔴 Critical Issues
+## Critical Issues
 
 [List each issue with score < 0.5]
 
@@ -163,10 +238,13 @@ cat /tmp/lighthouse-report.json | jq '.audits | to_entries[] | select(.key | sta
 - **Current Score:** X/100
 - **Estimated Savings:** Xms or XKB
 - **Description:** [What's wrong]
+- **Likely Files to Modify:**
+  - [file paths based on framework detection]
 - **Fix:**
   ```
-  [Specific code or configuration fix]
+  [Specific code or configuration fix with file paths]
   ```
+- **Expected Impact:** [quantified improvement]
 
 ---
 
@@ -196,28 +274,78 @@ cat /tmp/lighthouse-report.json | jq '.audits | to_entries[] | select(.key | sta
 
 ---
 
-## 💾 Resource Optimization Recommendations
+## Resource Optimization Recommendations
 
 [Specific, actionable recommendations with code examples]
+
+**IMPORTANT: Include framework-specific file paths and instructions.**
 
 **Example format:**
 
 ### Optimize Images
 **Issue:** 2.3MB of unoptimized images
+**Files to Modify:**
+- Image files in `/assets` or `/public` folder
+- Component templates using these images
+
 **Fix:**
 ```bash
 # Convert to WebP format
 cwebp input.jpg -q 80 -o output.webp
 
-# Add lazy loading
+# For Angular - use NgOptimizedImage directive (Angular 15+)
+# In component:
+import { NgOptimizedImage } from '@angular/common';
+
+@Component({
+  imports: [NgOptimizedImage],
+  template: '<img ngSrc="logo.png" alt="Logo" width="200" height="100" priority>'
+})
+
+# For React/Next.js - use next/image
+import Image from 'next/image'
+<Image src="/logo.png" alt="Logo" width={200} height={100} priority />
+
+# For vanilla HTML - add lazy loading
 <img src="image.jpg" loading="lazy" alt="description">
 ```
 **Expected Impact:** -1.8MB, ~2s faster LCP
 
 ### Eliminate Render-Blocking CSS
 **Issue:** 3 CSS files blocking first paint
+**Files to Modify:**
+- Angular: `angular.json` (enable inlineCritical option)
+- React/webpack: `webpack.config.js` or Next.js config
+- Generic: `index.html`
+
 **Fix:**
+
+```typescript
+// For Angular - angular.json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "configurations": {
+            "production": {
+              "optimization": {
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true  // Angular 11.1+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ```html
+<!-- For generic HTML - index.html -->
 <!-- Inline critical CSS -->
 <style>
   /* Critical above-the-fold styles */
@@ -247,7 +375,7 @@ cwebp input.jpg -q 80 -o output.webp
 
 ---
 
-## 📈 Estimated Performance Improvement
+## Estimated Performance Improvement
 
 If all recommendations are implemented:
 - **Estimated Score:** X/100 → Y/100 (+Z points)
@@ -256,13 +384,43 @@ If all recommendations are implemented:
 
 ---
 
-## 🔍 Additional Insights
+## For Claude: Next Actions
+
+**CRITICAL SECTION: Tell Claude exactly what to do next based on this analysis.**
+
+Based on this analysis, Claude should:
+
+1. **Immediate Actions** (if user wants to proceed):
+   - Search for configuration files: [list specific files based on framework detected]
+   - Ask user which issues to tackle first (High/Medium/Low priority)
+   - Create a todo list if implementing fixes
+
+2. **Files to Search For** (framework-specific):
+   - Angular: `angular.json`, `tsconfig.json`, `.browserslistrc`, routing modules
+   - React: `webpack.config.js`, `package.json`, `.babelrc`, `next.config.js` (if Next.js)
+   - Vue: `vue.config.js`, `vite.config.js`, `webpack.config.js`
+   - Generic: `package.json`, `nginx.conf`, `server config files`
+
+3. **Questions to Ask User**:
+   - "Would you like me to implement the high priority fixes?"
+   - "Do you have access to the server configuration for caching headers?"
+   - "Are you using [detected framework]? I can configure optimizations for it."
+
+4. **Suggested Implementation Order**:
+   - Start with quick wins (browser targets, production flags)
+   - Then code splitting / lazy loading
+   - Then caching configuration
+   - Finally image optimizations
+
+---
+
+## Additional Insights
 
 [Any other relevant findings from the audit]
 
 ---
 
-## 📚 Resources
+## Resources
 
 - [Lighthouse Documentation](https://developer.chrome.com/docs/lighthouse)
 - [Web Vitals Guide](https://web.dev/vitals)
@@ -270,12 +428,11 @@ If all recommendations are implemented:
 
 ---
 
-**Note:** This analysis was performed on [timestamp]. Performance may vary based on:
-- Network conditions
-- Server load
-- Time of day
-- User location
-- Browser and device
+**Analysis Metadata:**
+- Performed: [timestamp]
+- Device Type: [Mobile/Desktop]
+- Framework Detected: [framework or "unknown"]
+- Performance may vary based on network conditions, server load, time of day, user location, and device.
 ```
 
 ## Error Handling

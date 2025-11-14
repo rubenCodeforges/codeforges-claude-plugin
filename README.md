@@ -1,6 +1,6 @@
 # cf Dev Toolkit
 
-[![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
+[![Version](https://img.shields.io/badge/version-1.1.11-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://claude.com/claude-code)
 
