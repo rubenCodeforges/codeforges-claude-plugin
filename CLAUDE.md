@@ -146,13 +146,25 @@ If agents suggest code without checking:
 
 ## Version Management
 
-Current version: 1.0.0
+Current version: 1.1.1
 
 When incrementing:
 1. Update `manifest.json` version
 2. Update `.claude-plugin/marketplace.json` plugin version
 3. Update README.md badge
 4. Document changes in git commit
+
+### Semantic Versioning
+
+Follow semver (MAJOR.MINOR.PATCH):
+- **MAJOR**: Breaking changes (agent removal, fundamental behavior changes)
+- **MINOR**: New features (new agents, skills, commands)
+- **PATCH**: Bug fixes, documentation updates, small improvements
+
+Examples:
+- Add new agent → 1.1.0
+- Fix agent trigger keywords → 1.0.1
+- Remove/rename agent → 2.0.0
 
 ## Installation Testing
 
@@ -167,6 +179,17 @@ Test both installation methods:
 /plugin add github rubenCodeforges/codeforges-claude-plugin
 ```
 
+### Testing Checklist
+
+After making changes:
+1. Validate JSON syntax in `manifest.json` and `.claude-plugin/marketplace.json`
+2. Verify all paths exist (agents, skills, commands)
+3. Test agent auto-triggering with natural language prompts
+4. Test slash commands if modified
+5. Check skills load correctly
+6. Test in fresh conversation (restart Claude Code if needed)
+7. Verify version numbers match across all files
+
 ## User's Vision
 
 Remember the core vision:
@@ -176,6 +199,62 @@ Remember the core vision:
 - **Daily workflow tool** - not just "analysis"
 
 This plugin makes Claude Code productive for real-world development, not toy examples.
+
+## Troubleshooting
+
+### Agent Not Triggering Automatically
+
+1. Check description has `MUST BE USED` and `USE PROACTIVELY`
+2. Add more natural trigger phrases
+3. Verify agent is listed in `manifest.json`
+4. Restart Claude Code
+5. Try explicit invocation with `@agent-name`
+
+### Skills Not Loading
+
+1. Verify skill is in `manifest.json` skills array
+2. Check file exists at specified path
+3. Skills load when relevant - not every conversation
+4. Skills are informational, not instructional
+
+### Commands Not Working
+
+1. Check command is in `manifest.json` commands array
+2. Verify file exists at specified path
+3. Use exact name: `/command-name`, not `/commandName`
+4. Restart Claude Code after adding commands
+
+### JSON Validation Errors
+
+Use `jq` to validate JSON files:
+```bash
+jq . manifest.json
+jq . .claude-plugin/marketplace.json
+```
+
+## Best Practices
+
+### Agent Design
+
+1. **Single Responsibility**: Each agent should have one clear purpose
+2. **Comprehensive Tools**: Give agents all tools they need (Read, Grep, Glob, Bash)
+3. **Smart Model Selection**: Use `sonnet` for balance of speed and quality
+4. **Clear Instructions**: Be explicit about what agent should/shouldn't do
+5. **Verification Steps**: Always include verification before code suggestions
+
+### Skill Design
+
+1. **Auto-Loading**: Skills should enhance, not replace agent capabilities
+2. **Multi-Language**: Provide examples for common languages
+3. **Practical Focus**: Real-world patterns, not academic theory
+4. **Organized Content**: Clear headings, concise explanations
+5. **Keep Updated**: Reflect current best practices
+
+### Command Design
+
+1. **Simple Interface**: Commands should have clear, simple syntax
+2. **Delegate to Agents**: Commands should invoke agents, not duplicate logic
+3. **User-Friendly**: Think about what users type naturally
 
 ## Contact
 

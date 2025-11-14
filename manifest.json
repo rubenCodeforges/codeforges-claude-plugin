@@ -1,6 +1,6 @@
 {
   "name": "cf-dev-toolkit",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Daily development workflow toolkit with specialized sub-agents that understand complete context, maintain focus, and prevent context overflow on complex tasks",
   "author": "codeforges",
   "agents": [
@@ -31,6 +31,10 @@
     {
       "name": "code-scanner",
       "path": "agents/code-scanner.md"
+    },
+    {
+      "name": "web-performance-agent",
+      "path": "agents/web-performance-agent.md"
     }
   ],
   "skills": [
@@ -45,6 +49,10 @@
     {
       "name": "performance-patterns",
       "path": "skills/performance-patterns.md"
+    },
+    {
+      "name": "web-performance-optimization",
+      "path": "skills/web-performance-optimization.md"
     }
   ],
   "commands": [
@@ -55,6 +63,10 @@
     {
       "name": "scan-codebase",
       "path": "commands/scan-codebase.md"
+    },
+    {
+      "name": "check-web-perf",
+      "path": "commands/check-web-perf.md"
     }
   ]
 }
