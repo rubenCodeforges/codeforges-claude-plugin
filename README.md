@@ -1,6 +1,6 @@
 # cf Dev Toolkit
 
-[![Version](https://img.shields.io/badge/version-1.1.11-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
+[![Version](https://img.shields.io/badge/version-1.1.12-blue.svg)](https://github.com/rubenCodeforges/codeforges-claude-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://claude.com/claude-code)
 
@@ -73,7 +73,7 @@ No @ needed. Agents activate automatically.
 | **code-analyst** | Deep file analysis, smart reading for large files | "analyze", "review", "understand code" |
 | **usage-finder** | Tracks function/class usage across entire codebase | "where used", "find usages", "what calls this" |
 | **performance-analyzer** | Finds bottlenecks, N+1 queries, algorithmic issues | "slow", "performance", "optimize" |
-| **web-performance-agent** | Lighthouse analysis for live websites (Core Web Vitals) | URLs, "page speed", "lighthouse" |
+| **web-performance-agent** | Lighthouse analysis + runtime debugging (freezes, memory leaks) | URLs, "page speed", "app freeze", "memory leak" |
 | **api-analyzer** | Maps all endpoints (Express, FastAPI, Django, Spring, Go) | "API routes", "endpoints", "map API" |
 | **dependency-analyzer** | Security vulnerabilities, circular deps, bundle bloat | "dependencies", "npm audit", "security" |
 | **git-analyzer** | Shows who wrote what, when, why | "git blame", "who wrote", "recent changes" |
@@ -85,16 +85,19 @@ No @ needed. Agents activate automatically.
 - Verification before code suggestions
 - Automatic multi-agent coordination
 
-### 4 Auto-Loading Skills
+### 5 Auto-Loading Skills
 - **codebase-patterns** - Pattern recognition
 - **refactoring-guide** - Refactoring techniques
 - **performance-patterns** - Optimization strategies
 - **web-performance-optimization** - Core Web Vitals, Lighthouse metrics
+- **runtime-debugging** - Debug freezes, memory leaks, performance issues
 
-### 3 Quick Commands
+### 5 Quick Commands
 - `/analyze-file <path>` - Deep file analysis
 - `/scan-codebase` - Complete project scan
 - `/check-web-perf` - Web performance toolkit diagnostics
+- `/map-class-usage <class>` - Build usage map for a class
+- `/diagnose-runtime <url>` - Debug runtime issues (freezes, memory leaks)
 
 ---
 

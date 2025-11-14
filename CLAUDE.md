@@ -146,7 +146,7 @@ If agents suggest code without checking:
 
 ## Version Management
 
-Current version: 1.1.1
+Current version: 1.1.12
 
 When incrementing:
 1. Update `manifest.json` version
@@ -154,17 +154,25 @@ When incrementing:
 3. Update README.md badge
 4. Document changes in git commit
 
-### Semantic Versioning
+### Versioning Pattern (Custom for this project)
 
-Follow semver (MAJOR.MINOR.PATCH):
-- **MAJOR**: Breaking changes (agent removal, fundamental behavior changes)
-- **MINOR**: New features (new agents, skills, commands)
-- **PATCH**: Bug fixes, documentation updates, small improvements
+**IMPORTANT: This project uses a modified versioning pattern:**
+
+Format: `1.MINOR.PATCH`
+- **1.X.0**: Major feature releases (reserved for significant milestones)
+- **1.1.X**: All regular updates including:
+  - New agents, skills, commands
+  - Feature enhancements
+  - Bug fixes
+  - Documentation updates
+  - Performance improvements
 
 Examples:
-- Add new agent → 1.1.0
-- Fix agent trigger keywords → 1.0.1
-- Remove/rename agent → 2.0.0
+- Add new agent → 1.1.12 (increment patch)
+- Fix agent trigger keywords → 1.1.13 (increment patch)
+- Major rewrite/v2 → 2.0.0 (only for breaking changes)
+
+**Note**: We keep all backward-compatible changes as patch versions (1.1.X) to maintain stability and indicate continuous improvement rather than major version jumps.
 
 ## Installation Testing
 
