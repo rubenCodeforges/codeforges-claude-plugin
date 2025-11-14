@@ -67,6 +67,10 @@
     {
       "name": "check-web-perf",
       "path": "commands/check-web-perf.md"
+    },
+    {
+      "name": "map-class-usage",
+      "path": "commands/map-class-usage.md"
     }
   ]
 }
