@@ -1,6 +1,6 @@
 {
   "name": "cf-dev-toolkit",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "description": "Daily development workflow toolkit with specialized sub-agents that understand complete context, maintain focus, and prevent context overflow on complex tasks",
   "author": "codeforges",
   "agents": [

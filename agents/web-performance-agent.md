@@ -22,18 +22,47 @@ Analyze website performance comprehensively and provide specific, actionable rec
 
 ### Primary: Playwright MCP (Built-in Browser Control)
 
-Use these MCP tools (prefixed with `mcp__browsermcp__`):
+Use the Microsoft Playwright MCP server (`@playwright/mcp`). Tools are prefixed with `mcp__playwright__`:
 
+**Core Navigation & Interaction:**
 | Tool | Purpose |
 |------|---------|
-| `browser_navigate` | Navigate to URLs |
-| `browser_snapshot` | Get accessibility tree and element refs |
-| `browser_screenshot` | Capture visual state |
-| `browser_click` | Click elements |
-| `browser_type` | Type into form fields |
-| `browser_wait` | Wait for duration |
-| `browser_get_console_logs` | Check for JS errors |
-| `browser_press_key` | Keyboard interactions |
+| `browser_navigate` | Direct browser to specified URL |
+| `browser_navigate_back` | Return to previous page |
+| `browser_click` | Execute click actions on elements |
+| `browser_type` | Input text into editable elements |
+| `browser_hover` | Position mouse over element |
+| `browser_press_key` | Activate keyboard keys |
+
+**Snapshots & Screenshots:**
+| Tool | Purpose |
+|------|---------|
+| `browser_snapshot` | Capture accessibility snapshot (preferred) |
+| `browser_take_screenshot` | Capture visual page image |
+
+**Waiting & Timing:**
+| Tool | Purpose |
+|------|---------|
+| `browser_wait_for` | Pause until text appears/disappears or timeout |
+
+**Console & Network (Critical for Performance):**
+| Tool | Purpose |
+|------|---------|
+| `browser_console_messages` | Retrieve all console output messages |
+| `browser_network_requests` | Retrieve all network requests since page load |
+
+**Evaluation & Tracing:**
+| Tool | Purpose |
+|------|---------|
+| `browser_evaluate` | Execute JavaScript expressions on page |
+| `browser_start_tracing` | Begin trace recording |
+| `browser_stop_tracing` | End trace recording |
+
+**Window Management:**
+| Tool | Purpose |
+|------|---------|
+| `browser_resize` | Adjust browser window dimensions |
+| `browser_close` | Terminate the current page session |
 
 ### Secondary: Lighthouse CLI (Comprehensive Audits)
 
@@ -57,23 +86,24 @@ $LIGHTHOUSE_CMD <URL> --output=json --output-path=/tmp/lighthouse-report.json --
 **Step 1**: Navigate and capture initial state
 ```
 1. Use browser_navigate to load the URL
-2. Use browser_wait for 2-3 seconds (let page settle)
-3. Use browser_screenshot for baseline visual
-4. Use browser_get_console_logs to check for errors
+2. Use browser_wait_for to let page settle (wait for key element or timeout)
+3. Use browser_take_screenshot for baseline visual
+4. Use browser_console_messages to check for errors
 ```
 
 **Step 2**: Check for runtime issues
 ```
 1. Use browser_snapshot to verify DOM loaded correctly
-2. Check console logs for errors, warnings, long task warnings
-3. Take additional screenshots if issues detected
+2. Use browser_console_messages for errors, warnings, long task warnings
+3. Use browser_network_requests to check for failed requests
+4. Take additional screenshots if issues detected
 ```
 
 **Step 3**: Interactive testing (if needed)
 ```
 1. Use browser_click to test interactive elements
 2. Use browser_type to test form inputs
-3. Screenshot after interactions to verify responsiveness
+3. Use browser_take_screenshot after interactions to verify responsiveness
 ```
 
 ### Phase 2: Lighthouse Audit (Metrics)
@@ -236,8 +266,8 @@ Tailor recommendations to the detected framework.
 ```
 ⚠️ Playwright MCP is required for live browser analysis.
 
-Install: npx @anthropic-ai/playwright-mcp
-Configure in Claude Code settings.
+Install with one command:
+claude mcp add playwright -- npx @playwright/mcp@latest
 
 Alternative: Running Lighthouse-only analysis...
 ```

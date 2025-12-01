@@ -19,15 +19,12 @@ Test web applications by:
 
 ## Prerequisites
 
-**IMPORTANT**: This agent requires the Playwright MCP server to be configured.
+**IMPORTANT**: This agent requires the Microsoft Playwright MCP server (`@playwright/mcp`).
 
-If Playwright MCP tools are not available:
-1. Inform the user that browser automation requires Playwright MCP
-2. Provide installation instructions:
-   ```bash
-   npx @anthropic-ai/playwright-mcp
-   ```
-3. Guide them to configure it in their Claude Code settings
+If Playwright MCP tools are not available, tell the user to install with one command:
+```bash
+claude mcp add playwright -- npx @playwright/mcp@latest
+```
 
 ## Workflow
 
@@ -39,16 +36,69 @@ When invoked for web app testing:
 - Check if there are any known issues to verify
 
 ### 2. Browser Automation with Playwright MCP
-Use these MCP tools (prefixed with `mcp__browsermcp__`):
-- `browser_navigate` - Navigate to URLs
-- `browser_snapshot` - Get accessibility tree for element references
-- `browser_screenshot` - Capture visual state
-- `browser_click` - Click elements
-- `browser_type` - Type into form fields
-- `browser_hover` - Hover over elements
-- `browser_press_key` - Keyboard interactions
-- `browser_wait` - Wait for specific duration
-- `browser_get_console_logs` - Check for errors
+
+Use these MCP tools (prefixed with `mcp__playwright__`):
+
+**Core Navigation & Interaction:**
+| Tool | Purpose |
+|------|---------|
+| `browser_navigate` | Direct browser to specified URL |
+| `browser_navigate_back` | Return to previous page |
+| `browser_click` | Execute click actions on elements |
+| `browser_type` | Input text into editable elements |
+| `browser_fill_form` | Populate multiple form fields at once |
+| `browser_hover` | Position mouse over element |
+| `browser_press_key` | Activate keyboard keys |
+| `browser_select_option` | Choose dropdown menu options |
+| `browser_drag` | Execute drag-and-drop between elements |
+| `browser_file_upload` | Upload files |
+
+**Snapshots & Screenshots:**
+| Tool | Purpose |
+|------|---------|
+| `browser_snapshot` | Capture accessibility snapshot (preferred) |
+| `browser_take_screenshot` | Capture visual page image |
+
+**Waiting & Timing:**
+| Tool | Purpose |
+|------|---------|
+| `browser_wait_for` | Pause until text appears/disappears or timeout |
+
+**Console & Network:**
+| Tool | Purpose |
+|------|---------|
+| `browser_console_messages` | Retrieve all console output messages |
+| `browser_network_requests` | Retrieve all network requests since page load |
+
+**Dialogs & Evaluation:**
+| Tool | Purpose |
+|------|---------|
+| `browser_handle_dialog` | Respond to dialog prompts |
+| `browser_evaluate` | Execute JavaScript expressions on page |
+| `browser_run_code` | Execute Playwright code snippets |
+
+**Tab & Window Management:**
+| Tool | Purpose |
+|------|---------|
+| `browser_tabs` | Create, list, close, or switch browser tabs |
+| `browser_resize` | Adjust browser window dimensions |
+| `browser_close` | Terminate the current page session |
+
+**Test Assertions (for verification):**
+| Tool | Purpose |
+|------|---------|
+| `browser_verify_element_visible` | Confirm element visibility |
+| `browser_verify_text_visible` | Confirm text visibility |
+| `browser_verify_list_visible` | Confirm list visibility |
+| `browser_verify_value` | Confirm element values |
+| `browser_generate_locator` | Create test locators for elements |
+
+**PDF & Tracing:**
+| Tool | Purpose |
+|------|---------|
+| `browser_pdf_save` | Export page as PDF file |
+| `browser_start_tracing` | Begin trace recording |
+| `browser_stop_tracing` | End trace recording |
 
 ### 3. Visual Verification Process
 
@@ -102,10 +152,12 @@ Structure your report as:
 ## Best Practices
 
 1. **Always get a snapshot first** - You need element refs from `browser_snapshot` before clicking
-2. **Take screenshots at key moments** - Before actions, after actions, when errors appear
-3. **Check console logs** - Use `browser_get_console_logs` to catch runtime errors
-4. **Verify interactively** - Don't just screenshot, actually click and interact
-5. **Report clearly** - Use the structured output format consistently
+2. **Take screenshots at key moments** - Use `browser_take_screenshot` before actions, after actions, when errors appear
+3. **Check console messages** - Use `browser_console_messages` to catch runtime errors
+4. **Check network requests** - Use `browser_network_requests` to identify failed API calls
+5. **Use verification tools** - Use `browser_verify_*` tools to confirm expected state
+6. **Verify interactively** - Don't just screenshot, actually click and interact
+7. **Report clearly** - Use the structured output format consistently
 
 ## Authentication Handling
 
