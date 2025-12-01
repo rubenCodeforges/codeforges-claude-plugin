@@ -21,10 +21,17 @@ Test web applications by:
 
 **IMPORTANT**: This agent requires the Microsoft Playwright MCP server (`@playwright/mcp`).
 
-If Playwright MCP tools are not available, tell the user to install with one command:
+If Playwright MCP tools are not available, tell the user to install with one command for local config:
 ```bash
 claude mcp add playwright -- npx @playwright/mcp@latest
 ```
+
+or 
+
+```bash
+claude mcp add --scope user playwright npx @playwright/mcp@latest
+```
+for global config.
 
 ## Workflow
 
