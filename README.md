@@ -242,6 +242,26 @@ Common fixes:
 </details>
 
 <details>
+<summary><strong>Tired of approving every Playwright action?</strong></summary>
+
+The `web-visual-qa` agent uses Playwright MCP, which prompts for approval on every browser action by default.
+
+To auto-approve all Playwright actions, add to your `~/.claude/settings.json`:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright__*"
+    ]
+  }
+}
+```
+
+Or run `/permissions` and add the rule `mcp__playwright__*`.
+</details>
+
+<details>
 <summary><strong>How do I customize agents?</strong></summary>
 
 Edit `.md` files in the plugin directory:
